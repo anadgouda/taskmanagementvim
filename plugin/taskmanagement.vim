@@ -37,6 +37,7 @@ if !exists('g:loaded_taskmanagement') || &cp
     command! Week :call Todo(0, 7)
     command! LastWeek :call Todo(-7, 0)
     command! Yesterday :call Todo(-1, 0)
+    command! Pending :call PendingTodo(7)
 
     autocmd BufWrite $VIMTASKMANAGEMENTDIR/*.txt :helptags $VIMTASKMANAGEMENTDIR
     autocmd BufRead,BufNewFile $VIMTASKMANAGEMENTDIR/*.txt :set filetype=taskmanagement
@@ -56,6 +57,26 @@ function! Todo(day, ...)
             let _date = strftime("%d%m%Y", localtime()+offset*86400)
             try
                 exec "lvimgrepadd /=" . _date . "/j ~/wiki/*.txt"
+            catch /^Vim(\a\+):E480:/
+            endtry
+        endfor
+    endif
+
+    exec "lw"
+endfunction
+
+function! PendingTodo(days)
+    let _date = strftime("%d%m%Y", localtime()-86400)
+    try
+        exec "lvimgrep /.*=" . _date . "\\(.*=done\\)\\@!.*$/j ~/wiki/*.txt"
+    catch /^Vim(\a\+):E480:/
+    endtry
+
+    if a:days > 1
+        for offset in range(2, a:days)
+            let _date = strftime("%d%m%Y", localtime()-offset*86400)
+            try
+                exec "lvimgrepadd /.*=" . _date . "\\(.*=done\\)\\@!.*$/j ~/wiki/*.txt"
             catch /^Vim(\a\+):E480:/
             endtry
         endfor
