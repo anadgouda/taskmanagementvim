@@ -47,7 +47,7 @@ function! Todo(day, ...)
     " Doing the first separately to clear the location list.
     let _date = strftime("%d%m%Y", localtime()+a:day*86400)
     try
-        exec "lvimgrep /=" . _date . "/j ~/wiki/*.txt"
+        exec "lvimgrep /=" . _date . "/j " . $VIMTASKMANAGEMENTDIR . "/*.txt"
     catch /^Vim(\a\+):E480:/
     endtry
 
@@ -56,7 +56,7 @@ function! Todo(day, ...)
         for offset in range(a:day+1, a:1)
             let _date = strftime("%d%m%Y", localtime()+offset*86400)
             try
-                exec "lvimgrepadd /=" . _date . "/j ~/wiki/*.txt"
+                exec "lvimgrepadd /=" . _date . "/j " . $VIMTASKMANAGEMENTDIR . "/*.txt"
             catch /^Vim(\a\+):E480:/
             endtry
         endfor
@@ -68,7 +68,7 @@ endfunction
 function! PendingTodo(days)
     let _date = strftime("%d%m%Y", localtime()-86400)
     try
-        exec "lvimgrep /.*=" . _date . "\\(.*=done\\)\\@!.*$/j ~/wiki/*.txt"
+        exec "lvimgrep /.*=" . _date . "\\(.*=done\\)\\@!.*$/j ". $VIMTASKMANAGEMENTDIR . "/*.txt"
     catch /^Vim(\a\+):E480:/
     endtry
 
@@ -76,7 +76,7 @@ function! PendingTodo(days)
         for offset in range(2, a:days)
             let _date = strftime("%d%m%Y", localtime()-offset*86400)
             try
-                exec "lvimgrepadd /.*=" . _date . "\\(.*=done\\)\\@!.*$/j ~/wiki/*.txt"
+                exec "lvimgrepadd /.*=" . _date . "\\(.*=done\\)\\@!.*$/j " . $VIMTASKMANAGEMENTDIR . "/*.txt"
             catch /^Vim(\a\+):E480:/
             endtry
         endfor
