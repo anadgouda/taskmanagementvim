@@ -1,5 +1,5 @@
 " File: taskmanagement.vim
-" Author: Abhijit Nadgouda (anadgouda@gmail.com)
+" Author: Abhijit Nadgouda (abhijit@ifacethoughts.net)
 " Version: 1
 " Last Modified: May 14, 2011
 " Copyright: Copyright (C) 2011 Abhijit Nadgouda
@@ -28,7 +28,7 @@ if !exists('g:loaded_taskmanagement') || &cp
     endif
 
     if !exists('$VIMTASKMANAGEMENTDIR')
-    	let $VIMTASKMANAGEMENTDIR = '/home/anadgouda/wiki/'
+    	let $VIMTASKMANAGEMENTDIR = '~/wiki/'
     endif
 
     command! Today :call Todo(0)
